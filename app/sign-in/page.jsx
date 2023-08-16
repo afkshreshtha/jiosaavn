@@ -4,9 +4,8 @@ import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
 
 import { supabase } from '../utils/supabase'
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const Login = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
@@ -17,11 +16,11 @@ const Login = () => {
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         // Reload the page and navigate to '/'
-        window.location.reload();
-        router.push('/');
+        // window.location.reload();
+        router.push('/')
       }
-    });
-  }, [router]);
+    })
+  }, [router])
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -32,24 +31,25 @@ const Login = () => {
     }
     fetchSession()
   }, [])
- 
+
   useEffect(() => {
     if (isUserLoggedIn) {
       router.push('/sign-in')
     } else {
       router.push('/')
     }
-  }, [isUserLoggedIn,router]);
+  }, [isUserLoggedIn, router])
   return (
-    <div>
+    <div className="mt-[50%]">
       <Auth
+        onlyThirdPartyProviders={true}
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
         theme="dark"
-        providers={['discord']}
+        providers={['discord', 'google']}
       />
     </div>
-  );
-};
+  )
+}
 
 export default Login
