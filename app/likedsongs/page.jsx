@@ -21,12 +21,13 @@ const LikedSongs = () => {
     }
     fetchSession()
   }, [])
-
-  if (isUserLoggedIn) {
-    router.push('/sign-in')
-  } else {
-    router.push('/likedsongs')
-  }
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      router.push('/sign-in')
+    } else {
+      router.push('/likedsongs')
+    }
+  }, [isUserLoggedIn,router]);
   useEffect(() => {
     async function fetchLikedSongs() {
       try {
@@ -52,7 +53,7 @@ const LikedSongs = () => {
     fetchLikedSongs()
   }, [])
 
-  const songid = likedSongs?.map((song) => song.songid).join(',')
+  const songid = likedSongs?.map((song) => song?.songid).join(',')
   const { data, isFetching: fetching, error } = useGetTopSongsDetailsQuery({
     songid,
   })

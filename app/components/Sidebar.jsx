@@ -36,9 +36,8 @@ const NavLinks = ({ handleClick }) => {
     <>
       <div className="mt-10">
         {links.map((item, i) => (
-          <>
+          <div key={i}>
             <Link
-              key={i}
               href={item.to}
               className="flex flex-row justify-start items-center my-8 text-sm font-medium text-gray-400 hover:text-cyan-400"
               onClick={() => handleClick && handleClick()}
@@ -47,7 +46,7 @@ const NavLinks = ({ handleClick }) => {
 
               {item.name}
             </Link>
-          </>
+          </div>
         ))}
       </div>
     </>

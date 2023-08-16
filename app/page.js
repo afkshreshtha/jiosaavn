@@ -21,7 +21,7 @@ const [user,setUser] = useState({})
     const getUserData = async() =>{
       await supabase.auth.getUser().then((value)=>{
         if(value.data?.user){
-          console.log(value.data.user);
+          
           setUser(value.data.user)
         }
       })

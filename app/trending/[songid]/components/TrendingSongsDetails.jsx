@@ -109,8 +109,8 @@ const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
   }, [])
 
   return (
-    <div class="mt-10 mb-10 flex items-center justify-between mr-4">
-      <div class="flex items-center">
+    <div className="mt-10 mb-10 flex items-center justify-between mr-4">
+      <div className="flex items-center">
         <div
           onClick={handleButtonClick}
           className={`cursor-pointer mr-4 ${
@@ -123,7 +123,7 @@ const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
         </div>
         <div className="flex flex-wrap">{song.primaryArtists}</div>
       </div>
-      <div class="flex items-center">
+      <div className="flex items-center">
         {!isUserLoggedIn && (
           <div className="text-white mr-4">
             {a ? (

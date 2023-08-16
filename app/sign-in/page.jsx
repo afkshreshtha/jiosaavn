@@ -14,13 +14,14 @@ const Login = () => {
   const router = useRouter()
 
   useEffect(() => {
-    const authListener = supabase.auth.onAuthStateChange((event, session) => {
+    supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
-        
+        // Reload the page and navigate to '/'
+        window.location.reload();
         router.push('/');
       }
     });
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -32,11 +33,13 @@ const Login = () => {
     fetchSession()
   }, [])
  
-  if(isUserLoggedIn){
-    router.push('/sign-in')
-  }else {
-    router.push('/')
-  }
+  useEffect(() => {
+    if (isUserLoggedIn) {
+      router.push('/sign-in')
+    } else {
+      router.push('/')
+    }
+  }, [isUserLoggedIn,router]);
   return (
     <div>
       <Auth

@@ -35,7 +35,7 @@ const SongDetails = () => {
           className="mt-5 ml-5"
         />
       </div>
-      <div className="bg-[#bbbbb4] md:absolute top-20 truncate left-[470px]">
+      <div className="bg-[#bbbbb4] md:absolute top-20 truncate left-[490px]">
         <h1 className="text-white text-center font-medium text-[1.6rem]">
           {str}
         </h1>
