@@ -16,8 +16,7 @@ const Login = () => {
   useEffect(() => {
     const authListener = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
-        // Reload the page and navigate to '/'
-        window.location.reload();
+        
         router.push('/');
       }
     });
