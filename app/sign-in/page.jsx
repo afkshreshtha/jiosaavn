@@ -40,7 +40,7 @@ const Login = () => {
     }
   }, [isUserLoggedIn, router])
   return (
-    <div className="mt-[50%]">
+    <div className="">
       <Auth
         onlyThirdPartyProviders={true}
         supabaseClient={supabase}
