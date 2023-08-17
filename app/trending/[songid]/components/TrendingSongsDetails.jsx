@@ -106,7 +106,7 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
         <div
           onClick={handleButtonClick}
           className={`cursor-pointer mr-4 ${
-            activeSong.id === song.id && isPlaying
+            activeSong?.id === song.id && isPlaying
               ? 'text-green-400'
               : 'text-white'
           }`}
@@ -114,10 +114,12 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
           {str}
         </div>
         <div className="flex flex-wrap">{song.primaryArtists}</div>
+
       </div>
+
       <div className="flex items-center">
-        {!isUserLoggedIn && (
-          <div className="text-white mr-4">
+      {!isUserLoggedIn && (
+          <div className="text-white mr-2 cursor-pointer">
             {IslikedSong || a ? (
               <AiFillHeart onClick={handleLikeSong} />
             ) : (
@@ -125,18 +127,20 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
             )}
           </div>
         )}
-
         <div onClick={handleButtonClick} className="cursor-pointer">
-          <Image
-            src={
-              activeSong.id === song.id && isPlaying === true
-                ? 'https://th.bing.com/th/id/R.39be84790f16c293e001b26c367e9c87?rik=hkhhkjmeuq4DWg&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f60%2f77%2fnpx4Pk.gif&ehk=LTFLE4ndfMIkZkcS7sW1IJzeJghsooKbl%2fHNBVKsZWM%3d&risl=&pid=ImgRaw&r=0'
-                : song.image[2].link
-            }
-            alt="img"
-            width={50}
-            height={50}
-          />
+          <div className="w-16 h-16 md:w-20 md:h-20">
+            <Image
+              src={
+                activeSong?.id === song.id && isPlaying === true
+                  ? 'https://th.bing.com/th/id/R.39be84790f16c293e001b26c367e9c87?rik=hkhhkjmeuq4DWg&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f60%2f77%2fnpx4Pk.gif&ehk=LTFLE4ndfMIkZkcS7sW1IJzeJghsooKbl%2fHNBVKsZWM%3d&risl=&pid=ImgRaw&r=0'
+                  : song.image[2].link
+              }
+              alt="img"
+              width={50}
+              height={50}
+              objectFit="contain" // Adjust this based on your design needs
+            />
+          </div>
         </div>
       </div>
     </div>
