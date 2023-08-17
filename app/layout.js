@@ -4,7 +4,8 @@ import Sidebar from "./components/Sidebar";
 import Searchbar from "./components/Searchbar";
 import "./globals.css";
 import { Providers } from "./redux/provider";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export const metadata = {
   title: "Spotify",
 };
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
                         <MobileNav />
                       </div>
                     </div>
+                    <ToastContainer/>
                   </Providers>
                 </div>
               </div>

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { supabase } from '../../../utils/supabase'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-const PlaylistSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
+const PlaylistSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   const dispatch = useDispatch()
   const [LikedSongsid, setLikedSongsid] = useState([])
   const [IslikedSong, setIsLikedSong] = useState(false)
@@ -35,13 +35,12 @@ const PlaylistSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
       songid: song.id,
       user_id: user.data.user.id,
     }
-    const { data, error } = await supabase
-      .from('likedsongs')
-      .upsert(formattedSongs)
+    await supabase.from('likedsongs').upsert(formattedSongs)
   }
 
   const handleClick = () => {
     uploadSong(song)
+    setIsLikedSong(true)
   }
 
   useEffect(() => {
@@ -92,11 +91,6 @@ const PlaylistSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
 
   const l = LikedSongsid?.map((song) => song?.songid)
   const a = l?.includes(song?.id)
-  useEffect(() => {
-    if (a == true) {
-      setIsLikedSong(true)
-    }
-  }, [a])
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -126,7 +120,7 @@ const PlaylistSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
       <div class="flex items-center">
         {!isUserLoggedIn && (
           <div className="text-white mr-4">
-            {a ? (
+            {IslikedSong || a ? (
               <AiFillHeart onClick={handleLikeSong} />
             ) : (
               <AiOutlineHeart onClick={handleClick} />

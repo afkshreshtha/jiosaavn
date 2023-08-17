@@ -16,9 +16,9 @@ const Login = () => {
     }
     fetchSession()
   }, [])
-
+console.log(isUserLoggedIn)
   useEffect(() => {
-    if (isUserLoggedIn) {
+    if (!isUserLoggedIn) {
       router.push('/sign-in')
     } else {
       router.push('/')
@@ -29,7 +29,15 @@ const Login = () => {
     <div className="">
       <Auth  
         supabaseClient={supabase}
-        appearance={{ theme: ThemeSupa }}
+        appearance={{
+          theme: ThemeSupa,
+          className:{
+            message:'#fff'
+          },
+          style:{
+            message: { color: 'white' },
+          }
+        }}
         theme="dark"
         providers={['discord', 'google']}
       />

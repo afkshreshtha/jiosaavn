@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { supabase } from '../../../utils/supabase'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
+
+const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   const dispatch = useDispatch()
   const [LikedSongsid, setLikedSongsid] = useState([])
   const [IslikedSong, setIsLikedSong] = useState(false)
   const [click, setClick] = useState(false)
-  const [isFetching, setIsFetching] = useState(true)
+
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
 
   const handleButtonClick = () => {
@@ -29,21 +30,20 @@ const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
 
   let str = song?.name
   str = decodeHTMLString(str)
+
   const uploadSong = async (song) => {
     const user = await supabase.auth.getUser()
     const formattedSongs = {
       songid: song.id,
       user_id: user.data.user.id,
     }
-    const { data, error } = await supabase
-      .from('likedsongs')
-      .upsert(formattedSongs)
+    await supabase.from('likedsongs').upsert(formattedSongs)
   }
 
   const handleClick = () => {
     uploadSong(song)
+    setIsLikedSong(true)
   }
-
   useEffect(() => {
     async function fetchLikedSongs() {
       try {
@@ -58,16 +58,13 @@ const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
         } else {
           setLikedSongsid(data)
         }
-
-        setIsFetching(false)
       } catch (error) {
         console.error('Error:', error.message)
-        setIsFetching(false)
       }
     }
-
     fetchLikedSongs()
-  }, [isFetching])
+  }, [])
+
   const handleLikeClick = async (songid) => {
     const user = await supabase.auth.getUser()
     try {
@@ -92,11 +89,6 @@ const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
 
   const l = LikedSongsid?.map((song) => song?.songid)
   const a = l?.includes(song?.id)
-  useEffect(() => {
-    if (a == true) {
-      setIsLikedSong(true)
-    }
-  }, [a])
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -126,7 +118,7 @@ const TrendingSongsDetails = ({ id, song, i, isPlaying, activeSong, data }) => {
       <div className="flex items-center">
         {!isUserLoggedIn && (
           <div className="text-white mr-4">
-            {a ? (
+            {IslikedSong || a ? (
               <AiFillHeart onClick={handleLikeSong} />
             ) : (
               <AiOutlineHeart onClick={handleClick} />
