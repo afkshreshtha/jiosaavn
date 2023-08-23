@@ -4,7 +4,7 @@ import { playPause, setActiveSong } from '../../../redux/Features/playerSlice'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { supabase } from '../../../utils/supabase'
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart, AiOutlineDownload } from 'react-icons/ai'
 
 const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   const dispatch = useDispatch()
@@ -90,6 +90,18 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   const l = LikedSongsid?.map((song) => song?.songid)
   const a = l?.includes(song?.id)
 
+  const downloadURL = song.downloadUrl[4].link
+  const handleDownload = async () => {
+    const response = await fetch(downloadURL)
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${str}` // Set the desired file name
+    link.click()
+    URL.revokeObjectURL(url)
+  }
   useEffect(() => {
     const fetchSession = async () => {
       const session = await supabase.auth.getSession()
@@ -114,11 +126,10 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
           {str}
         </div>
         <div className="flex flex-wrap">{song.primaryArtists}</div>
-
       </div>
 
       <div className="flex items-center">
-      {!isUserLoggedIn && (
+        {!isUserLoggedIn && (
           <div className="text-white mr-2 cursor-pointer">
             {IslikedSong || a ? (
               <AiFillHeart onClick={handleLikeSong} />
@@ -127,6 +138,12 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
             )}
           </div>
         )}
+        <div
+          className="text-white mr-[10px] cursor-pointer"
+          onClick={handleDownload}
+        >
+          <AiOutlineDownload size={20} />
+        </div>
         <div onClick={handleButtonClick} className="cursor-pointer">
           <div className="w-16 h-16 md:w-20 md:h-20">
             <Image

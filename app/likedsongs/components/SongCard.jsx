@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import PlayPause from '../../components/PlayPause'
 import { playPause, setActiveSong } from '../../redux/Features/playerSlice'
 import Image from 'next/image'
+import { AiOutlineDownload } from 'react-icons/ai'
 
 const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
   const dispatch = useDispatch()
@@ -25,7 +26,18 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
   let str = song.name || song.title
   str = decodeHTMLString(str)
   const router = useRouter()
+  const downloadURL = song.downloadUrl[4].link
+  const handleDownload = async () => {
+    const response = await fetch(downloadURL)
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
 
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${str}` // Set the desired file name
+    link.click()
+    URL.revokeObjectURL(url)
+  }
   return (
     <div className="flex flex-col w-[250px] p-4 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
       <div className="relative w-full h-56 group">
@@ -55,7 +67,13 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
 
       <div className="mt-4 flex flex-col">
         <p className="font-semibold text-lg text-white truncate">{str}</p>
-        <p className="text-sm truncate text-gray-300 mt-1">
+        <p className="font-semibold text-lg text-white truncate">{str}</p>
+        <div
+          className="text-white mr-[10px] cursor-pointer"
+          onClick={handleDownload}
+        >
+          <AiOutlineDownload size={20} />
+        </div>
           { song.subtitle}
         </p>
       </div>
