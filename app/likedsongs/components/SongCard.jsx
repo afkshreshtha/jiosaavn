@@ -67,15 +67,14 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
 
       <div className="mt-4 flex flex-col">
         <p className="font-semibold text-lg text-white truncate">{str}</p>
-        <p className="font-semibold text-lg text-white truncate">{str}</p>
+        <p className="font-semibold text-lg text-white truncate">  { song.subtitle}</p>
         <div
           className="text-white mr-[10px] cursor-pointer"
           onClick={handleDownload}
         >
           <AiOutlineDownload size={20} />
         </div>
-          { song.subtitle}
-        </p>
+
       </div>
     </div>
   )
