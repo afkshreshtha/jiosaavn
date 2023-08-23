@@ -4,14 +4,14 @@ import { playPause, setActiveSong } from '../../../redux/Features/playerSlice'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { supabase } from '../../../utils/supabase'
-import { AiFillHeart, AiOutlineDownload, AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart, AiOutlineDownload } from 'react-icons/ai'
 
-const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
+const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   const dispatch = useDispatch()
   const [LikedSongsid, setLikedSongsid] = useState([])
   const [IslikedSong, setIsLikedSong] = useState(false)
   const [click, setClick] = useState(false)
-  const [isFetching, setIsFetching] = useState(true)
+
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
 
   const handleButtonClick = () => {
@@ -27,23 +27,23 @@ const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
     const decodedString = str?.replace(/&quot;/g, '"')
     return decodedString
   }
+
   let str = song?.name
   str = decodeHTMLString(str)
+
   const uploadSong = async (song) => {
     const user = await supabase.auth.getUser()
     const formattedSongs = {
       songid: song.id,
       user_id: user.data.user.id,
     }
-    const { data, error } = await supabase
-      .from('likedsongs')
-      .upsert(formattedSongs)
+    await supabase.from('likedsongs').upsert(formattedSongs)
   }
 
   const handleClick = () => {
     uploadSong(song)
+    setIsLikedSong(true)
   }
-
   useEffect(() => {
     async function fetchLikedSongs() {
       try {
@@ -58,16 +58,13 @@ const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
         } else {
           setLikedSongsid(data)
         }
-
-        setIsFetching(false)
       } catch (error) {
         console.error('Error:', error.message)
-        setIsFetching(false)
       }
     }
-
     fetchLikedSongs()
-  }, [isFetching])
+  }, [])
+
   const handleLikeClick = async (songid) => {
     const user = await supabase.auth.getUser()
     try {
@@ -92,6 +89,7 @@ const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
 
   const l = LikedSongsid?.map((song) => song?.songid)
   const a = l?.includes(song?.id)
+
   const downloadURL = song.downloadUrl[4].link
   const handleDownload = async () => {
     const response = await fetch(downloadURL)
@@ -105,12 +103,6 @@ const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
     URL.revokeObjectURL(url)
   }
   useEffect(() => {
-    if (a == true) {
-      setIsLikedSong(true)
-    }
-  }, [a])
-
-  useEffect(() => {
     const fetchSession = async () => {
       const session = await supabase.auth.getSession()
       if (session?.data.session === null) {
@@ -122,14 +114,25 @@ const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
 
   return (
     <div className="mt-10 mb-10 flex items-center justify-between mr-4">
-      <h1 className={` cursor-pointer ml-5 ${activeSong?.id===song?.id ? 'text-green-400':'text-white'}`} onClick={handleButtonClick}>
-        {str}
-        <span className="block"> { song.primaryArtists}</span>
-      </h1>
-      <div class="flex items-center">
+      <div className="flex items-center">
+        <div
+          onClick={handleButtonClick}
+          className={`cursor-pointer mr-4 ${
+            activeSong?.id === song.id && isPlaying
+              ? 'text-green-400'
+              : 'text-white'
+          }`}
+        >
+          {str}
+          <div className="flex flex-wrap mt-2">{song.primaryArtists}</div>
+        </div>
+       
+      </div>
+ 
+      <div className="flex items-center">
         {!isUserLoggedIn && (
-          <div className="text-white mr-4">
-            {a ? (
+          <div className="text-white mr-2 cursor-pointer">
+            {IslikedSong || a ? (
               <AiFillHeart onClick={handleLikeSong} />
             ) : (
               <AiOutlineHeart onClick={handleClick} />
@@ -143,19 +146,23 @@ const SearchCard = ({ song, i, isPlaying, activeSong, data }) => {
           <AiOutlineDownload size={20} />
         </div>
         <div onClick={handleButtonClick} className="cursor-pointer">
-          <Image
-            src={
-              activeSong?.id === song.id && isPlaying === true
-                ? 'https://th.bing.com/th/id/R.39be84790f16c293e001b26c367e9c87?rik=hkhhkjmeuq4DWg&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f60%2f77%2fnpx4Pk.gif&ehk=LTFLE4ndfMIkZkcS7sW1IJzeJghsooKbl%2fHNBVKsZWM%3d&risl=&pid=ImgRaw&r=0'
-                : song.image[2].link
-            }
-            alt="img"
-            width={50}
-            height={50}
-          />
+          <div className="w-16 h-16 md:w-20 md:h-20">
+            <Image
+              src={
+                activeSong?.id === song.id && isPlaying === true
+                  ? 'https://th.bing.com/th/id/R.39be84790f16c293e001b26c367e9c87?rik=hkhhkjmeuq4DWg&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f60%2f77%2fnpx4Pk.gif&ehk=LTFLE4ndfMIkZkcS7sW1IJzeJghsooKbl%2fHNBVKsZWM%3d&risl=&pid=ImgRaw&r=0'
+                  : song.image[2].link
+              }
+              alt="img"
+              width={50}
+              height={50}
+              objectFit="contain" // Adjust this based on your design needs
+            />
+          </div>
         </div>
       </div>
     </div>
   )
 }
-export default SearchCard
+export default TrendingSongsDetails
+
