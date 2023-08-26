@@ -18,6 +18,7 @@ const Track = ({ isPlaying, isActive, activeSong }) => {
         } hidden sm:block h-16 w-16 mr-4`}
       >
         <Image
+        unoptimized={true}
           width={1000}
           height={1000}
           src={

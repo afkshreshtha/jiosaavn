@@ -52,6 +52,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
           />
         </div>
         <Image
+          unoptimized={true}
           width={1000}
           height={1000}
           alt="song_img"

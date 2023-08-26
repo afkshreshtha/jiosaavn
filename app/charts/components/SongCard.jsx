@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 
@@ -35,13 +35,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
               ? 'flex bg-black bg-opacity-70'
               : 'hidden'
           }`}
-          onClick={() =>
-            router.push(
-              `${'playlist'}/${
-                song.id
-              }`,
-            )
-          }
+          onClick={() => router.push(`${'playlist'}/${song.id}`)}
         >
           <PlayPause
             isPlaying={isPlaying}
@@ -52,6 +46,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
           />
         </div>
         <Image
+          unoptimized={true}
           width={1000}
           height={1000}
           alt="song_img"
@@ -62,9 +57,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
 
       <div className="mt-4 flex flex-col">
         <p className="font-semibold text-lg text-white truncate">{str}</p>
-        <p className="text-sm truncate text-gray-300 mt-1">
-          { song.subtitle}
-        </p>
+        <p className="text-sm truncate text-gray-300 mt-1">{song.subtitle}</p>
       </div>
     </div>
   )
