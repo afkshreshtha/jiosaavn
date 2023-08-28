@@ -1,18 +1,17 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 
-import PlayPause from './PlayPause'
-import { playPause, setActiveSong } from '../redux/Features/playerSlice'
+import PlayPause from '../../../../components/PlayPause'
+import { playPause, setActiveSong } from '../../../../redux/Features/playerSlice'
 import Image from 'next/image'
 
-const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
+const SearchCard = ({ song, isPlaying, activeSong, data, i }) => {
   const dispatch = useDispatch()
 
   const handlePauseClick = () => {
     dispatch(playPause(false))
   }
-
   const handlePlayClick = () => {
     dispatch(setActiveSong({ song, data, i }))
     dispatch(playPause(true))
@@ -37,7 +36,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
           }`}
           onClick={() =>
             router.push(
-              `${'trending'}/${
+              `${'/album'}/${
                 song.id
               }`,
             )
@@ -71,4 +70,4 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
   )
 }
 
-export default SongCard
+export default SearchCard

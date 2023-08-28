@@ -39,19 +39,18 @@ const PlaylistDetails = () => {
           alt="img"
           width={180}
           height={180}
-          className="mt-5 ml-5"
+          className="mt-5 mb-0 md:mb-5 ml-5"
         />
       </div>
-      <div className="bg-[#bbbbb4] md:absolute top-20 truncate left-[470px]">
-        <h1 className="text-white text-center font-medium text-[1.6rem]">
+      <div className="md:ml-6 xl:ml-6 bg-[#bbbbb4] md:absolute top-20 truncate left-[470px]">
+        <h1 className="ml-4 text-white text-center font-medium text-[1.6rem]">
           {str}
         </h1>
         <p className="text-white text-center font-medium">
            {formattedNumber} followers
-           {data?.data.songCount} songs
+           
         </p>
         <p className="text-white text-center font-medium">
-         
            {data?.data.songCount} songs
         </p>
       </div>

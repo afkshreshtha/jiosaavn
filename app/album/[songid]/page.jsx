@@ -28,7 +28,7 @@ const SongDetails = () => {
     <div className="">
       <div className=" flex bg-[#bbbbb4] justify-center md:justify-start relative ">
         <Image
-          src={data?.data.image?.[2]?.link}
+          src={data?.data.image?.[2].link}
           alt="img"
           width={180}
           height={180}

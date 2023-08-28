@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/playlist/page.jsx", "app/playlist/[songId]/page.jsx", "app/charts/page.jsx", "app/newreleases/page.jsx", "app/sign-in/page.jsx", "app/likedsongs/page.jsx"  ],
+, "app/playlist/page.jsx", "app/playlist/[songId]/page.jsx", "app/charts/page.jsx", "app/newreleases/page.jsx", "app/sign-in/page.jsx", "app/likedsongs/page.jsx", "app/search/albums/[searchTerms]/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

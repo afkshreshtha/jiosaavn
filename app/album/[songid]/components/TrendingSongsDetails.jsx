@@ -90,7 +90,7 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   const l = LikedSongsid?.map((song) => song?.songid)
   const a = l?.includes(song?.id)
 
-  const downloadURL = song?.downloadUrl?.[4]?.link
+  const downloadURL = song.downloadUrl[4].link
   const handleDownload = async () => {
     const response = await fetch(downloadURL)
     const blob = await response.blob()
@@ -115,7 +115,6 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   return (
     <div className="mt-10 mb-10 flex items-center justify-between mr-4">
       <div className="flex items-center">
-        <h2 className='text-white'>{song.length}</h2>
         <div
           onClick={handleButtonClick}
           className={`cursor-pointer mr-4 ${
@@ -124,12 +123,11 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
               : 'text-white'
           }`}
         >
-         {i+1} {str}
-          <div className="flex flex-wrap mt-2">{song.primaryArtists}</div>
+          {str}
         </div>
-       
+        <div className="flex flex-wrap">{song.primaryArtists}</div>
       </div>
- 
+
       <div className="flex items-center">
         {!isUserLoggedIn && (
           <div className="text-white mr-2 cursor-pointer">
@@ -167,4 +165,3 @@ const TrendingSongsDetails = ({ song, i, isPlaying, activeSong, data }) => {
   )
 }
 export default TrendingSongsDetails
-
